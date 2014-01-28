@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/login")
 public class LoginController {
 
     @Resource
@@ -16,12 +17,12 @@ public class LoginController {
     @Resource
     private UserSession userSession;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getLoginForm() {
         return new ModelAndView("login", "user", new User());
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String postLoginCheck(User user, BindingResult result) {
 
         User userFromDao = userDao.getFromUsername(user.getUsername());
