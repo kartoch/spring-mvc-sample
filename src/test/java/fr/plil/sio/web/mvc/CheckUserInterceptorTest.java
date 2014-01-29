@@ -22,25 +22,24 @@ public class CheckUserInterceptorTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
     }
-/*
+
     @Test
     public void checkPreHandleServletPathIsLogin() throws IOException {
-        request.setPathInfo("/login");
+        request.setServletPath("/login");
         assertTrue(interceptor.preHandle(request, response, null));
     }
 
     @Test
     public void checkPreHandleUsernameInSession() throws IOException {
         userSession.setUsername("admin");
-        request.setPathInfo("/blabla");
+        request.setServletPath("/blabla");
         assertTrue(interceptor.preHandle(request, response, null));
     }
 
     @Test
     public void checkPreHandleUsernameNotInSession() throws IOException {
-        request.setPathInfo("/blabla");
+        request.setServletPath("/blabla");
         assertFalse(interceptor.preHandle(request, response, null));
         assertEquals(response.getRedirectedUrl(),"login");
     }
-    */
 }
