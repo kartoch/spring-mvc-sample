@@ -27,6 +27,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode. TARGET_CLASS)
     public UserSession userSession() {
+        logger.debug("new user session bean");
         return new UserSession();
     }
 
@@ -62,22 +63,4 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/").addResourceLocations("/resources/**");
     }
-     
-    /*
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-    */
-
-    
-    /*
-     @Bean
-     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-     RequestMappingHandlerMapping handlerMapping = super.requestMappingHandlerMapping();
-     handlerMapping.setUseSuffixPatternMatch(false);
-     handlerMapping.setUseTrailingSlashMatch(false);
-     return handlerMapping;
-     }
-     */
 }
