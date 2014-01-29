@@ -1,7 +1,6 @@
 package fr.plil.sio.web.mvc;
 
 import java.io.Serializable;
-import org.springframework.stereotype.Component;
 
 public class UserSession implements Serializable {
 
