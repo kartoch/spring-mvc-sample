@@ -7,14 +7,14 @@ import org.junit.Test;
 public class ViewUsersControllerTest {
 
     private ViewUsersController viewUsersController;
-    private UserDao userDao;
+    private UserRepository userRepository;
     private UserSession userSession;
 
     @Before
     public void createInstances() {
         viewUsersController = new ViewUsersController();
-        userDao = new UserDaoImpl();
-        viewUsersController.setUserDao(userDao);
+        userRepository = new UserRepositoryImpl();
+        viewUsersController.setUserRepository(userRepository);
         userSession = new UserSession();
         userSession.setUsername("admin");
         viewUsersController.setUserSession(userSession);

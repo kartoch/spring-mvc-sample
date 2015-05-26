@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     @Resource
-    private UserDao userDao;
+    private UserRepository userRepository;
     
     @Resource
     private UserSession userSession;
@@ -25,7 +25,7 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String postLoginCheck(User user, BindingResult result) {
 
-        User userFromDao = userDao.getFromUsername(user.getUsername());
+        User userFromDao = userRepository.getFromUsername(user.getUsername());
 
         if (userFromDao == null) {
             result.rejectValue("username","login.form.invalid");
@@ -42,8 +42,8 @@ public class LoginController {
         return "redirect:/";
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void setUserSession(UserSession userSession) {

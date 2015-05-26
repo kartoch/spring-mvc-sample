@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ViewUsersController {
 
     @Resource
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Resource
     private UserSession userSession;
 
     @ModelAttribute("users")
     public Set<User> populateUsers() {
-        return userDao.getAllUsers();
+        return userRepository.getAllUsers();
     }
 
     @ModelAttribute("userSession")
@@ -31,8 +31,8 @@ public class ViewUsersController {
         return "viewUsers";
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void setUserSession(UserSession userSession) {

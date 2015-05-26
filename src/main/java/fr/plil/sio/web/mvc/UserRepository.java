@@ -2,7 +2,7 @@ package fr.plil.sio.web.mvc;
 
 import java.util.Set;
 
-public interface UserDao {
+public interface UserRepository {
 
     boolean save(User user);
 

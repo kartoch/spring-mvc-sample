@@ -12,7 +12,7 @@ public class LoginControllerTest {
     private LoginController loginController;
     private BindingResult results;
     private User user;
-    private UserDao userDao;
+    private UserRepository userRepository;
     private UserSession userSession;
 
     @Before
@@ -20,8 +20,8 @@ public class LoginControllerTest {
         loginController = new LoginController();
         user = new User();
         results = new BeanPropertyBindingResult(user, "user");
-        userDao = new UserDaoImpl();
-        loginController.setUserDao(userDao);
+        userRepository = new UserRepositoryImpl();
+        loginController.setUserRepository(userRepository);
         userSession = new UserSession();
         loginController.setUserSession(userSession);
     }

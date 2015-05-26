@@ -12,7 +12,7 @@ public class NewUserControllerTest {
     private NewUserController newUserController;
     private BindingResult results;
     private User user;
-    private UserDao userDao;
+    private UserRepository userRepository;
     private UserSession userSession;
     private UserValidator userValidator;
 
@@ -21,8 +21,8 @@ public class NewUserControllerTest {
         newUserController = new NewUserController();
         user = new User();
         results = new BeanPropertyBindingResult(user, "user");
-        userDao = new UserDaoImpl();
-        newUserController.setUserDao(userDao);
+        userRepository = new UserRepositoryImpl();
+        newUserController.setUserRepository(userRepository);
         userSession = new UserSession();
         userSession.setUsername("admin");
         newUserController.setUserSession(userSession);

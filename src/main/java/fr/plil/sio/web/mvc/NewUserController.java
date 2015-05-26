@@ -11,9 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class NewUserController {
 
     @Resource
-    private UserDao userDao;
+    private UserRepository userRepository;
+
     @Resource
     private UserSession userSession;
+
     @Resource
     private UserValidator userValidator;
 
@@ -31,7 +33,7 @@ public class NewUserController {
 
         userValidator.validate(user, result);
 
-        boolean present = (userDao.getFromUsername(user.getUsername()) != null);
+        boolean present = (userRepository.getFromUsername(user.getUsername()) != null);
 
         if (present) {
             result.rejectValue("username", "new.user.form.present");
@@ -41,13 +43,13 @@ public class NewUserController {
             return "newUser";
         }
 
-        userDao.save(user);
+        userRepository.save(user);
 
         return "redirect:/";
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void setUserSession(UserSession userSession) {

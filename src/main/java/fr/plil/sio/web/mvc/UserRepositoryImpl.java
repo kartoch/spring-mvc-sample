@@ -5,11 +5,11 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 @Repository(value = "userDao")
-public class UserDaoImpl implements UserDao {
+public class UserRepositoryImpl implements UserRepository {
 
     private Set<User> users = new HashSet<User>();
 
-    public UserDaoImpl() {
+    public UserRepositoryImpl() {
         User user = new User();
         user.setUsername("admin");
         user.setPassword("admin");

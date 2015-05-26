@@ -4,20 +4,20 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserDaoTest {
+public class UserRepositoryTest {
 
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Before
     public void createInstances() {
-        userDao = new UserDaoImpl();
+        userRepository = new UserRepositoryImpl();
     }
 
     @Test
     public void testAdminPresent() {
-        assertEquals(1, userDao.getAllUsers().size());
-        assertNotNull(userDao.getFromUsername("admin"));
-        assertEquals("admin", userDao.getFromUsername("admin").getUsername());
+        assertEquals(1, userRepository.getAllUsers().size());
+        assertNotNull(userRepository.getFromUsername("admin"));
+        assertEquals("admin", userRepository.getFromUsername("admin").getUsername());
     }
 
     @Test
@@ -25,7 +25,7 @@ public class UserDaoTest {
         User user = new User();
         user.setUsername("abc");
         user.setPassword("abc");
-        assertTrue(userDao.save(user));
+        assertTrue(userRepository.save(user));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class UserDaoTest {
         User user = new User();
         user.setUsername("admin");
         user.setPassword("abc");
-        assertFalse(userDao.save(user));
+        assertFalse(userRepository.save(user));
     }
 
     @Test
@@ -41,23 +41,23 @@ public class UserDaoTest {
         User user = new User();
         user.setUsername("abc");
         user.setPassword("abc");
-        userDao.save(user);
-        assertNotNull(userDao.getFromUsername("admin"));
-        assertEquals("admin",userDao.getFromUsername("admin").getUsername());
+        userRepository.save(user);
+        assertNotNull(userRepository.getFromUsername("admin"));
+        assertEquals("admin", userRepository.getFromUsername("admin").getUsername());
     }
 
     @Test
     public void testGetFromUsernameNotFound() {
-        assertNull(userDao.getFromUsername("abc"));
+        assertNull(userRepository.getFromUsername("abc"));
     }
 
     @Test
     public void testGetAllUsers() {
-        assertEquals(1,userDao.getAllUsers().size());
+        assertEquals(1, userRepository.getAllUsers().size());
         User user = new User();
         user.setUsername("abc");
         user.setPassword("abc");
-        assertTrue(userDao.save(user));
-        assertEquals(2,userDao.getAllUsers().size());
+        assertTrue(userRepository.save(user));
+        assertEquals(2, userRepository.getAllUsers().size());
     }
 }
