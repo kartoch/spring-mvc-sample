@@ -1,8 +1,14 @@
 package fr.plil.sio.web.mvc;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ViewUsersControllerTest {
 
@@ -13,7 +19,10 @@ public class ViewUsersControllerTest {
     @Before
     public void createInstances() {
         viewUsersController = new ViewUsersController();
-        userRepository = new UserRepositoryImpl();
+        userRepository = mock(UserRepository.class);
+        List<User> users = new LinkedList<>();
+        users.add(new User("admin", "password"));
+        when(userRepository.findAll()).thenReturn(users);
         viewUsersController.setUserRepository(userRepository);
         userSession = new UserSession();
         userSession.setUsername("admin");

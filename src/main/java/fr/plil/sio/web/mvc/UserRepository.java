@@ -1,16 +1,8 @@
 package fr.plil.sio.web.mvc;
 
-import java.util.Set;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean save(User user);
-
-    User getFromUsername(String username);
-
-    Set<User> getAllUsers();
-
-    boolean update(User user);
-
-    boolean delete(User user);
+    User findByUsername(String username);
 }

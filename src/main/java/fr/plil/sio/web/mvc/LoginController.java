@@ -1,11 +1,12 @@
 package fr.plil.sio.web.mvc;
 
-import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -25,7 +26,7 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String postLoginCheck(User user, BindingResult result) {
 
-        User userFromDao = userRepository.getFromUsername(user.getUsername());
+        User userFromDao = userRepository.findByUsername(user.getUsername());
 
         if (userFromDao == null) {
             result.rejectValue("username","login.form.invalid");

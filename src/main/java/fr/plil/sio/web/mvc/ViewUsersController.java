@@ -1,11 +1,12 @@
 package fr.plil.sio.web.mvc;
 
-import java.util.Set;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 public class ViewUsersController {
@@ -17,8 +18,8 @@ public class ViewUsersController {
     private UserSession userSession;
 
     @ModelAttribute("users")
-    public Set<User> populateUsers() {
-        return userRepository.getAllUsers();
+    public List<User> populateUsers() {
+        return userRepository.findAll();
     }
 
     @ModelAttribute("userSession")

@@ -1,63 +1,30 @@
 package fr.plil.sio.web.mvc;
 
-import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@Transactional
+@TransactionConfiguration
 public class UserRepositoryTest {
 
+    @Resource
     private UserRepository userRepository;
-
-    @Before
-    public void createInstances() {
-        userRepository = new UserRepositoryImpl();
-    }
 
     @Test
     public void testAdminPresent() {
-        assertEquals(1, userRepository.getAllUsers().size());
-        assertNotNull(userRepository.getFromUsername("admin"));
-        assertEquals("admin", userRepository.getFromUsername("admin").getUsername());
-    }
-
-    @Test
-    public void testSaveSucceed() {
-        User user = new User();
-        user.setUsername("abc");
-        user.setPassword("abc");
-        assertTrue(userRepository.save(user));
-    }
-
-    @Test
-    public void testSaveFailed() {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("abc");
-        assertFalse(userRepository.save(user));
-    }
-
-    @Test
-    public void testGetFromUsernameFound() {
-        User user = new User();
-        user.setUsername("abc");
-        user.setPassword("abc");
-        userRepository.save(user);
-        assertNotNull(userRepository.getFromUsername("admin"));
-        assertEquals("admin", userRepository.getFromUsername("admin").getUsername());
-    }
-
-    @Test
-    public void testGetFromUsernameNotFound() {
-        assertNull(userRepository.getFromUsername("abc"));
-    }
-
-    @Test
-    public void testGetAllUsers() {
-        assertEquals(1, userRepository.getAllUsers().size());
-        User user = new User();
-        user.setUsername("abc");
-        user.setPassword("abc");
-        assertTrue(userRepository.save(user));
-        assertEquals(2, userRepository.getAllUsers().size());
+        assertEquals(1, userRepository.findAll().size());
+        assertNotNull(userRepository.findByUsername("admin"));
+        assertEquals("admin", userRepository.findByUsername("admin").getUsername());
     }
 }

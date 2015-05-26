@@ -1,11 +1,12 @@
 package fr.plil.sio.web.mvc;
 
-import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
 
 @Controller
 public class NewUserController {
@@ -33,7 +34,7 @@ public class NewUserController {
 
         userValidator.validate(user, result);
 
-        boolean present = (userRepository.getFromUsername(user.getUsername()) != null);
+        boolean present = (userRepository.findByUsername(user.getUsername()) != null);
 
         if (present) {
             result.rejectValue("username", "new.user.form.present");

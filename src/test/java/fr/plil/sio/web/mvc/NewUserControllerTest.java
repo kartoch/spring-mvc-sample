@@ -1,11 +1,14 @@
 package fr.plil.sio.web.mvc;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NewUserControllerTest {
 
@@ -21,7 +24,11 @@ public class NewUserControllerTest {
         newUserController = new NewUserController();
         user = new User();
         results = new BeanPropertyBindingResult(user, "user");
-        userRepository = new UserRepositoryImpl();
+        userRepository = mock(UserRepository.class);
+
+        User user = new User("admin", "password");
+        when(userRepository.findByUsername("admin")).thenReturn(user);
+
         newUserController.setUserRepository(userRepository);
         userSession = new UserSession();
         userSession.setUsername("admin");

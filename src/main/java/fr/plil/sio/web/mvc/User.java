@@ -1,9 +1,29 @@
 package fr.plil.sio.web.mvc;
 
-public class User {
 
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
     private String username;
+
+    @Column
     private String password;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;
