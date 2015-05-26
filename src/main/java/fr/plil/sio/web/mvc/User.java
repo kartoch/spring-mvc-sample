@@ -2,10 +2,9 @@ package fr.plil.sio.web.mvc;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
