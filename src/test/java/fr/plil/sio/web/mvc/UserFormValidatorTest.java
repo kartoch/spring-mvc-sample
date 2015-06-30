@@ -1,20 +1,22 @@
 package fr.plil.sio.web.mvc;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-public class UserValidatorTest {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class UserFormValidatorTest {
 
     private User user;
-    private UserValidator validator;
+    private UserFormValidator validator;
     private Errors results;
 
     @Before
     public void createInstances() {
-        validator = new UserValidator();
+        validator = new UserFormValidator();
         user = new User();
         user.setUsername("abc");
         user.setPassword("abc");

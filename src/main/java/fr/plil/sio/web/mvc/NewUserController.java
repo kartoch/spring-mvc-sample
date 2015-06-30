@@ -18,7 +18,7 @@ public class NewUserController {
     private UserSession userSession;
 
     @Resource
-    private UserValidator userValidator;
+    private UserFormValidator userFormValidator;
 
     @RequestMapping(value = {"/newUser"}, method = RequestMethod.GET)
     public ModelAndView getNewUserForm() {
@@ -32,7 +32,7 @@ public class NewUserController {
             result.rejectValue("username", "new.user.only.admin");
         }
 
-        userValidator.validate(user, result);
+        userFormValidator.validate(user, result);
 
         boolean present = (userRepository.findByUsername(user.getUsername()) != null);
 
@@ -57,7 +57,7 @@ public class NewUserController {
         this.userSession = userSession;
     }
 
-    public void setUserValidator(UserValidator userValidator) {
-        this.userValidator = userValidator;
+    public void setUserFormValidator(UserFormValidator userFormValidator) {
+        this.userFormValidator = userFormValidator;
     }
 }

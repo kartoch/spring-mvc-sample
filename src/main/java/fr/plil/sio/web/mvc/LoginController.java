@@ -26,19 +26,19 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String postLoginCheck(User user, BindingResult result) {
 
-        User userFromDao = userRepository.findByUsername(user.getUsername());
+        User userFromRepository = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDao == null) {
+        if (userFromRepository == null) {
             result.rejectValue("username","login.form.invalid");
             return "login";
         }
 
-        if(!userFromDao.getPassword().equals(user.getPassword())) {
+        if (!userFromRepository.getPassword().equals(user.getPassword())) {
             result.rejectValue("username","login.form.invalid");
             return "login";            
         }
-        
-        userSession.setUsername(userFromDao.getUsername());
+
+        userSession.setUsername(userFromRepository.getUsername());
 
         return "redirect:/";
     }

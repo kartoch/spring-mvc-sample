@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class ApplicationMvcConfiguration extends WebMvcConfigurerAdapter{
+public class ApplicationMvcConfiguration extends WebMvcConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationMvcConfiguration.class);
 

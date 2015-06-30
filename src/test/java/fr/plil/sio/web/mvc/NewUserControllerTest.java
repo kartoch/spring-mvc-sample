@@ -17,7 +17,7 @@ public class NewUserControllerTest {
     private User user;
     private UserRepository userRepository;
     private UserSession userSession;
-    private UserValidator userValidator;
+    private UserFormValidator userFormValidator;
 
     @Before
     public void createInstances() {
@@ -33,8 +33,8 @@ public class NewUserControllerTest {
         userSession = new UserSession();
         userSession.setUsername("admin");
         newUserController.setUserSession(userSession);
-        userValidator = new UserValidator();
-        newUserController.setUserValidator(userValidator);
+        userFormValidator = new UserFormValidator();
+        newUserController.setUserFormValidator(userFormValidator);
     }
 
     @Test
