@@ -2,6 +2,7 @@ package fr.plil.sio.web.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +16,9 @@ public class NewUserController {
     private UserRepository userRepository;
 
     @Resource
+    private UserService userService;
+
+    @Resource
     private UserSession userSession;
 
     @Resource
@@ -26,7 +30,8 @@ public class NewUserController {
     }
 
     @RequestMapping(value = {"/newUser"}, method = RequestMethod.POST)
-    public String postNewUser(User user, BindingResult result) {
+    public String postNewUser(@ModelAttribute("userForm") UserForm user,
+                              BindingResult result) {
 
         if (!userSession.getUsername().equals("admin")) {
             result.rejectValue("username", "new.user.only.admin");
@@ -44,7 +49,7 @@ public class NewUserController {
             return "newUser";
         }
 
-        userRepository.save(user);
+        userService.createUser(user.getUsername(), user.getPassword());
 
         return "redirect:/";
     }
@@ -59,5 +64,9 @@ public class NewUserController {
 
     public void setUserFormValidator(UserFormValidator userFormValidator) {
         this.userFormValidator = userFormValidator;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

@@ -7,29 +7,29 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class NewUserControllerTest {
 
     private NewUserController newUserController;
     private BindingResult results;
-    private User user;
+    private UserForm user;
     private UserRepository userRepository;
     private UserSession userSession;
     private UserFormValidator userFormValidator;
+    private UserService userService;
 
     @Before
     public void createInstances() {
         newUserController = new NewUserController();
-        user = new User();
+        user = new UserForm();
         results = new BeanPropertyBindingResult(user, "user");
         userRepository = mock(UserRepository.class);
-
         User user = new User("admin", "password");
         when(userRepository.findByUsername("admin")).thenReturn(user);
-
         newUserController.setUserRepository(userRepository);
+        userService = mock(UserService.class);
+        newUserController.setUserService(userService);
         userSession = new UserSession();
         userSession.setUsername("admin");
         newUserController.setUserSession(userSession);
@@ -49,16 +49,17 @@ public class NewUserControllerTest {
     @Test
     public void testPostNewUserSucceed() {
         user.setUsername("abc");
-        user.setPassword("abc");
+        user.setPassword("abcD#");
         String view = newUserController.postNewUser(user, results);
         assertFalse(results.hasErrors());
-        assertEquals("redirect:/",view);
+        assertEquals("redirect:/", view);
+        verify(userService).createUser("abc", "abcD#");
     }
 
     @Test
     public void testPostNewUserFailedNotAdmin() {
         user.setUsername("abc");
-        user.setPassword("abc");
+        user.setPassword("abcD#");
         userSession.setUsername("blabla");
         String view = newUserController.postNewUser(user, results);
         assertTrue(results.hasErrors());

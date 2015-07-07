@@ -10,22 +10,22 @@ import static org.junit.Assert.assertTrue;
 
 public class UserFormValidatorTest {
 
-    private User user;
+    private UserForm user;
     private UserFormValidator validator;
     private Errors results;
 
     @Before
     public void createInstances() {
         validator = new UserFormValidator();
-        user = new User();
+        user = new UserForm();
         user.setUsername("abc");
-        user.setPassword("abc");
+        user.setPassword("abc#A");
         results = new BeanPropertyBindingResult(user, "user");
     }
 
     @Test
     public void testSupports() {
-        assertTrue(validator.supports(User.class));
+        assertTrue(validator.supports(UserForm.class));
     }
 
     @Test
@@ -34,17 +34,4 @@ public class UserFormValidatorTest {
         assertFalse(results.hasErrors());
     }
 
-    @Test
-    public void testValidatePasswordTooShort() {
-        user.setPassword("ab");
-        validator.validate(user,results);
-        assertTrue(results.hasErrors());
-    }
-
-    @Test
-    public void testValidateUsernameTooShort() {
-        user.setUsername("ab");
-        validator.validate(user,results);
-        assertTrue(results.hasErrors());
-    }
 }
