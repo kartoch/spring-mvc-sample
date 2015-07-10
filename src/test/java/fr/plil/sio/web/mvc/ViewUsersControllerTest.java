@@ -2,23 +2,36 @@ package fr.plil.sio.web.mvc;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
 public class ViewUsersControllerTest {
 
     private ViewUsersController viewUsersController;
     private UserRepository userRepository;
     private UserSession userSession;
 
+    private MockMvc mockMvc;
+
     @Before
     public void createInstances() {
         viewUsersController = new ViewUsersController();
+        mockMvc = MockMvcBuilders.standaloneSetup(viewUsersController).build();
         userRepository = mock(UserRepository.class);
         List<User> users = new LinkedList<>();
         users.add(new User("admin", "password"));
@@ -30,17 +43,11 @@ public class ViewUsersControllerTest {
     }
 
     @Test
-    public void testPopulateUsers() {
-        assertEquals(1, viewUsersController.populateUsers().size());
-    }
-
-    @Test
-    public void testPopulateUser() {
-        assertEquals("admin", viewUsersController.populateUser().getUsername());
-    }
-
-    @Test
-    public void testGetViewUsers() {
-        assertEquals("viewUsers",viewUsersController.getViewUsers());
+    public void testPopulateUsers() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("viewUsers"))
+                .andExpect(model().attributeExists("users"))
+                .andExpect(model().attributeExists("userSession"));
     }
 }
