@@ -1,45 +1,32 @@
 package fr.plil.sio.web.mvc;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @Controller
+@RequestMapping(value = {"/newUser"})
 public class NewUserController {
-
-    @Resource
-    private UserRepository userRepository;
 
     @Resource
     private UserService userService;
 
-    @Resource
-    private UserSession userSession;
-
-    @Resource
-    private UserFormValidator userFormValidator;
-
-    @RequestMapping(value = {"/newUser"}, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getNewUserForm() {
-        return new ModelAndView("newUser", "user", new User());
+        return new ModelAndView("newUser", "userForm", new UserForm());
     }
 
-    @RequestMapping(value = {"/newUser"}, method = RequestMethod.POST)
-    public String postNewUser(@ModelAttribute("userForm") UserForm user,
-                              BindingResult result) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST)
+    public String postNewUser(@Valid UserForm userForm, BindingResult result) {
 
-        if (!userSession.getUsername().equals("admin")) {
-            result.rejectValue("username", "new.user.only.admin");
-        }
-
-        userFormValidator.validate(user, result);
-
-        boolean present = (userRepository.findByUsername(user.getUsername()) != null);
+        boolean present = (userService.findByUsername(userForm.getUsername()) != null);
 
         if (present) {
             result.rejectValue("username", "new.user.form.present");
@@ -49,21 +36,9 @@ public class NewUserController {
             return "newUser";
         }
 
-        userService.createUser(user.getUsername(), user.getPassword());
+        userService.createUser(userForm.getUsername(), userForm.getPassword());
 
         return "redirect:/";
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
-    }
-
-    public void setUserFormValidator(UserFormValidator userFormValidator) {
-        this.userFormValidator = userFormValidator;
     }
 
     public void setUserService(UserService userService) {

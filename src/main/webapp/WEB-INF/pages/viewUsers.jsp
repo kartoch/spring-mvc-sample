@@ -32,7 +32,7 @@
 
     <ul>
         <li><a href="newUser"><spring:message code="new.user.main.header"/></a></li>
-        <li><a href="logout"><spring:message code="view.users.main.logout"/></a></li>
+        <li><a href="login?logout"><spring:message code="view.users.main.logout"/></a></li>
     </ul>
 
 </body>

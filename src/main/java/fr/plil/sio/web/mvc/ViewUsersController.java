@@ -14,17 +14,9 @@ public class ViewUsersController {
     @Resource
     private UserRepository userRepository;
 
-    @Resource
-    private UserSession userSession;
-
     @ModelAttribute("users")
     public List<User> populateUsers() {
         return userRepository.findAll();
-    }
-
-    @ModelAttribute("userSession")
-    public UserSession populateUser() {
-        return userSession;
     }
 
     @RequestMapping(value={"/"},method=RequestMethod.GET)
@@ -34,9 +26,5 @@ public class ViewUsersController {
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
     }
 }

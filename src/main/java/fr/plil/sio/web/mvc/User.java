@@ -1,27 +1,44 @@
 package fr.plil.sio.web.mvc;
 
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
-public class User {
+@Table(name = "USER_T")
+public class User implements UserDetails {
 
     @Id
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(name = "USERNAME_F")
     private String username;
 
-    @Column
+    @Column(name = "PASSWORD_F")
     private String password;
 
-    public User() {
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private Set<Role> roles = new TreeSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
     }
 
     public String getUsername() {
@@ -30,6 +47,26 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public String getPassword() {

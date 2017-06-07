@@ -1,16 +1,16 @@
 package fr.plil.sio.web.mvc;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class UserForm {
 
-    @Min(3)
-    @Max(16)
+    @NotNull
+    @Size(min = 3, max = 16)
     private String username;
 
     @NotNull
+    @Size(min = 4)
     private String password;
 
     public String getUsername() {

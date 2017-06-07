@@ -1,53 +1,26 @@
 package fr.plil.sio.web.mvc;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController {
 
-    @Resource
-    private UserRepository userRepository;
-    
-    @Resource
-    private UserSession userSession;
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(String error, String logout) {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getLoginForm() {
-        return new ModelAndView("login", "user", new User());
-    }
+        ModelAndView modelAndView = new ModelAndView("login");
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String postLoginCheck(User user, BindingResult result) {
-
-        User userFromRepository = userRepository.findByUsername(user.getUsername());
-
-        if (userFromRepository == null) {
-            result.rejectValue("username","login.form.invalid");
-            return "login";
+        if (error != null) {
+            modelAndView.addObject("error", "Your username and password is invalid.");
         }
 
-        if (!userFromRepository.getPassword().equals(user.getPassword())) {
-            result.rejectValue("username","login.form.invalid");
-            return "login";            
+        if (logout != null) {
+            modelAndView.addObject("message", "You have been logged out successfully.");
         }
 
-        userSession.setUsername(userFromRepository.getUsername());
-
-        return "redirect:/";
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
+        return modelAndView;
     }
 }

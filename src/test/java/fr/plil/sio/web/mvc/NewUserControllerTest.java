@@ -13,28 +13,20 @@ public class NewUserControllerTest {
 
     private NewUserController newUserController;
     private BindingResult results;
-    private UserForm user;
-    private UserRepository userRepository;
-    private UserSession userSession;
-    private UserFormValidator userFormValidator;
+    private UserForm userForm;
     private UserService userService;
 
     @Before
     public void createInstances() {
         newUserController = new NewUserController();
-        user = new UserForm();
-        results = new BeanPropertyBindingResult(user, "user");
-        userRepository = mock(UserRepository.class);
-        User user = new User("admin", "password");
-        when(userRepository.findByUsername("admin")).thenReturn(user);
-        newUserController.setUserRepository(userRepository);
+        userForm = new UserForm();
+        results = new BeanPropertyBindingResult(userForm, "user");
+        userService = mock(UserService.class);
+        User user = new User();
+        when(userService.findByUsername("admin")).thenReturn(user);
+        newUserController.setUserService(userService);
         userService = mock(UserService.class);
         newUserController.setUserService(userService);
-        userSession = new UserSession();
-        userSession.setUsername("admin");
-        newUserController.setUserSession(userSession);
-        userFormValidator = new UserFormValidator();
-        newUserController.setUserFormValidator(userFormValidator);
     }
 
     @Test
@@ -48,9 +40,9 @@ public class NewUserControllerTest {
 
     @Test
     public void testPostNewUserSucceed() {
-        user.setUsername("abc");
-        user.setPassword("abcD#");
-        String view = newUserController.postNewUser(user, results);
+        userForm.setUsername("abc");
+        userForm.setPassword("abcD#");
+        String view = newUserController.postNewUser(userForm, results);
         assertFalse(results.hasErrors());
         assertEquals("redirect:/", view);
         verify(userService).createUser("abc", "abcD#");
@@ -58,28 +50,27 @@ public class NewUserControllerTest {
 
     @Test
     public void testPostNewUserFailedNotAdmin() {
-        user.setUsername("abc");
-        user.setPassword("abcD#");
-        userSession.setUsername("blabla");
-        String view = newUserController.postNewUser(user, results);
+        userForm.setUsername("abc");
+        userForm.setPassword("abcD#");
+        String view = newUserController.postNewUser(userForm, results);
         assertTrue(results.hasErrors());
         assertEquals("newUser",view);
     }
 
     @Test
     public void testPostNewUserFailedValidate() {
-        user.setUsername("a");
-        user.setPassword("abc");
-        String view = newUserController.postNewUser(user, results);
+        userForm.setUsername("a");
+        userForm.setPassword("abc");
+        String view = newUserController.postNewUser(userForm, results);
         assertTrue(results.hasErrors());
         assertEquals("newUser",view);
     }
 
     @Test
     public void testPostNewUserFailedAlreadyPresent() {
-        user.setUsername("admin");
-        user.setPassword("blabla");
-        String view = newUserController.postNewUser(user, results);
+        userForm.setUsername("admin");
+        userForm.setPassword("blabla");
+        String view = newUserController.postNewUser(userForm, results);
         assertTrue(results.hasErrors());
         assertEquals("newUser",view);
     }

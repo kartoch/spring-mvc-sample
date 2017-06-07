@@ -24,7 +24,6 @@ public class ViewUsersControllerTest {
 
     private ViewUsersController viewUsersController;
     private UserRepository userRepository;
-    private UserSession userSession;
 
     private MockMvc mockMvc;
 
@@ -34,12 +33,12 @@ public class ViewUsersControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(viewUsersController).build();
         userRepository = mock(UserRepository.class);
         List<User> users = new LinkedList<>();
-        users.add(new User("admin", "password"));
+        User testUser = new User();
+        testUser.setPassword("admin");
+        testUser.setUsername("password");
+        users.add(testUser);
         when(userRepository.findAll()).thenReturn(users);
         viewUsersController.setUserRepository(userRepository);
-        userSession = new UserSession();
-        userSession.setUsername("admin");
-        viewUsersController.setUserSession(userSession);
     }
 
     @Test
@@ -47,7 +46,6 @@ public class ViewUsersControllerTest {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("viewUsers"))
-                .andExpect(model().attributeExists("users"))
-                .andExpect(model().attributeExists("userSession"));
+                .andExpect(model().attributeExists("users"));
     }
 }
