@@ -7,16 +7,7 @@
 <body>
 <c:url value="/login" var="loginUrl"/>
 <form action="${loginUrl}" method="post">
-    <c:if test="${param.error != null}">
-        <p>
-            Invalid username and password.
-        </p>
-    </c:if>
-    <c:if test="${param.logout != null}">
-        <p>
-            You have been logged out.
-        </p>
-    </c:if>
+    <b><c:out value="${message}"></c:out></b>
     <p>
         <label for="username">Username</label>
         <input type="text" id="username" name="username"/>
