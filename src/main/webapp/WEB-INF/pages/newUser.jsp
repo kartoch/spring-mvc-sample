@@ -1,7 +1,11 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<jsp:include page="header.jsp"/>
+
+<jsp:include page="header.jsp">
+    <jsp:param name="pageTitle" value="New user page"/>
+</jsp:include>
+
         <h1><spring:message code="new.user.main.header"/></h1>
         <form:form commandName="userForm" method="POST">
             <table>

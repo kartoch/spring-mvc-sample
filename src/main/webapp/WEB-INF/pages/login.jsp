@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="header.jsp"/>
+
+<jsp:include page="header.jsp">
+    <jsp:param name="pageTitle" value="Login page"/>
+</jsp:include>
+
 <c:url value="/login" var="loginUrl"/>
 <form action="${loginUrl}" method="post">
     <b><c:out value="${message}"></c:out></b>
