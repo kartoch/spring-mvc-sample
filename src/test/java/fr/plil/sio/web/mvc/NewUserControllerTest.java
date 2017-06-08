@@ -23,6 +23,8 @@ public class NewUserControllerTest {
         results = new BeanPropertyBindingResult(userForm, "user");
         userService = mock(UserService.class);
         User user = new User();
+        user.setUsername("admin");
+        user.setUsername("blabla");
         when(userService.findByUsername("admin")).thenReturn(user);
         newUserController.setUserService(userService);
         userService = mock(UserService.class);
@@ -34,8 +36,8 @@ public class NewUserControllerTest {
         ModelAndView mav = newUserController.getNewUserForm();
         assertEquals("newUser", mav.getViewName());
         assertEquals(1, mav.getModelMap().size());
-        assertTrue(mav.getModel().containsKey("user"));
-        assertTrue(mav.getModel().get("user") instanceof User);
+        assertTrue(mav.getModel().containsKey("userForm"));
+        assertTrue(mav.getModel().get("userForm") instanceof UserForm);
     }
 
     @Test
@@ -46,32 +48,5 @@ public class NewUserControllerTest {
         assertFalse(results.hasErrors());
         assertEquals("redirect:/", view);
         verify(userService).createUser("abc", "abcD#");
-    }
-
-    @Test
-    public void testPostNewUserFailedNotAdmin() {
-        userForm.setUsername("abc");
-        userForm.setPassword("abcD#");
-        String view = newUserController.postNewUser(userForm, results);
-        assertTrue(results.hasErrors());
-        assertEquals("newUser",view);
-    }
-
-    @Test
-    public void testPostNewUserFailedValidate() {
-        userForm.setUsername("a");
-        userForm.setPassword("abc");
-        String view = newUserController.postNewUser(userForm, results);
-        assertTrue(results.hasErrors());
-        assertEquals("newUser",view);
-    }
-
-    @Test
-    public void testPostNewUserFailedAlreadyPresent() {
-        userForm.setUsername("admin");
-        userForm.setPassword("blabla");
-        String view = newUserController.postNewUser(userForm, results);
-        assertTrue(results.hasErrors());
-        assertEquals("newUser",view);
     }
 }
