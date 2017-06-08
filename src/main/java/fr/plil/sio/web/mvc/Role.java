@@ -1,5 +1,6 @@
 package fr.plil.sio.web.mvc;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(
             name = "USER_ROLE_T",
             joinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID"),
