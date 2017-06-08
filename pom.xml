@@ -75,6 +75,10 @@
             <artifactId>bootstrap</artifactId>
             <version>3.3.7</version>
         </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>

@@ -3,6 +3,8 @@ package fr.plil.sio.web.mvc;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +18,11 @@ public class NewUserController {
 
     @Resource
     private UserService userService;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(new PasswordValidator());
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getNewUserForm() {
