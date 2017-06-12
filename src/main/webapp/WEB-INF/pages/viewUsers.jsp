@@ -10,24 +10,31 @@
 
         <h4><spring:message code="view.users.greetings"/> ${userSession.username} !</h4>
 
-        <table>
+        <table id="user-list">
             <thead>
                 <tr>
                     <td><spring:message code="domain.user.username"/></td>
                 </tr>
             </thead>
-            <tbody>
-                <c:forEach items="${users}" var="user">
-                    <tr>
-                        <td>${user.username}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
+            <tbody/>
         </table>
 
     <ul>
         <li><a href="newUser"><spring:message code="new.user.main.header"/></a></li>
         <li><a href="login?logout"><spring:message code="view.users.main.logout"/></a></li>
     </ul>
+
+<script>
+    window.onload = function() {
+        $.getJSON("/api/users/", function (data) {
+            var tr = $('<tr>').appendTo('#user-list > tbody');
+            $(data).each(function (index, item) {
+                tr.append(
+                    $(document.createElement('td')).text(item.username)
+                );
+            });
+        });
+    }
+</script>
 
 <jsp:include page="footer.jsp"/>
