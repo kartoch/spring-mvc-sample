@@ -24,6 +24,9 @@ public class UserServiceTest {
     @Test
     public void testCreateUser() {
         userService.createUser("blabla", "polo");
-        assertEquals("blabla", userRepository.findByUsername("blabla").getUsername());
+        User u = userRepository.findByUsername("blabla");
+        assertEquals("blabla", u.getUsername());
+        assertEquals(1, u.getRoles().size());
+        assertEquals("ROLE_USER", u.getRoles().iterator().next().getName());
     }
 }
