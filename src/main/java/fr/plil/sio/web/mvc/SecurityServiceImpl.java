@@ -18,16 +18,15 @@ public class SecurityServiceImpl implements SecurityService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication == null) {
-            return null;
+            throw new IllegalStateException("cannot found logged in username");
         }
 
         Object principal = authentication.getPrincipal();
 
-        if (principal instanceof UserDetails) {
-            return ((UserDetails)principal).getUsername();
+        if (!(principal instanceof UserDetails)) {
+            throw new IllegalStateException("cannot found logged in username");
         }
 
-        logger.warn("cannot find logged user");
-        return null;
+        return ((UserDetails)principal).getUsername();
     }
 }
