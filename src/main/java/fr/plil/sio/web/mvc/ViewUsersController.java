@@ -34,4 +34,8 @@ public class ViewUsersController {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 }

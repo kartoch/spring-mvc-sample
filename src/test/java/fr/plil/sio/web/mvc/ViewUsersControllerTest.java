@@ -23,7 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ViewUsersControllerTest {
 
     private ViewUsersController viewUsersController;
+
     private UserRepository userRepository;
+
+    private SecurityService securityService;
 
     private MockMvc mockMvc;
 
@@ -39,6 +42,9 @@ public class ViewUsersControllerTest {
         users.add(testUser);
         when(userRepository.findAll()).thenReturn(users);
         viewUsersController.setUserRepository(userRepository);
+        securityService = mock(SecurityService.class);
+        when(securityService.findLoggedInUsername()).thenReturn("admin");
+        viewUsersController.setSecurityService(securityService);
     }
 
     @Test
