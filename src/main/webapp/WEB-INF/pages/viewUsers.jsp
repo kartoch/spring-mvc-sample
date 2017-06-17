@@ -8,7 +8,7 @@
 
         <h1><spring:message code="view.users.main.header"/></h1>
 
-        <h4><spring:message code="view.users.greetings"/> ${userSession.username} !</h4>
+        <h4><spring:message code="view.users.greetings"/> ${connectedUser} !</h4>
 
         <table id="user-list">
             <thead>
