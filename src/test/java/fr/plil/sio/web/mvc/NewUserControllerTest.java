@@ -27,8 +27,6 @@ public class NewUserControllerTest {
         user.setUsername("blabla");
         when(userService.findByUsername("admin")).thenReturn(user);
         newUserController.setUserService(userService);
-        userService = mock(UserService.class);
-        newUserController.setUserService(userService);
     }
 
     @Test
@@ -48,5 +46,14 @@ public class NewUserControllerTest {
         assertFalse(results.hasErrors());
         assertEquals("redirect:/", view);
         verify(userService).createUser("abc", "abcD#");
+    }
+
+    @Test
+    public void testPostNewUserFailedWhenUserNameExists() {
+        userForm.setUsername("admin");
+        userForm.setPassword("admin");
+        String view = newUserController.postNewUser(userForm, results);
+        assertTrue(results.hasErrors());
+        assertEquals("newUser", view);
     }
 }

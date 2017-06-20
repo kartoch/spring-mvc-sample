@@ -23,4 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return user;
     }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

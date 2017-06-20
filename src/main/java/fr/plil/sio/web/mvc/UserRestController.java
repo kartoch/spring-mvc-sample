@@ -1,9 +1,7 @@
 package fr.plil.sio.web.mvc;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,8 +17,16 @@ public class UserRestController {
         return userService.findAll();
     }
 
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public class ResourceNotFoundException extends RuntimeException {}
+
     @RequestMapping(value = "/api/users/{username}/", method = RequestMethod.GET)
     public User listUsers(@PathVariable String username) {
-        return userService.findByUsername(username);
+        User user = userService.findByUsername(username);
+        if(user == null) {
+            throw new ResourceNotFoundException();
+        } else {
+            return user;
+        }
     }
 }
