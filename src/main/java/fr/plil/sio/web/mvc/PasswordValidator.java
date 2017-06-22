@@ -5,7 +5,6 @@ import org.springframework.validation.Validator;
 
 public class PasswordValidator implements Validator {
 
-
     @Override
     public boolean supports(Class<?> aClass) {
         return UserForm.class.equals(aClass);

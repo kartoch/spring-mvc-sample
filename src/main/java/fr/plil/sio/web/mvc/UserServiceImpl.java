@@ -1,22 +1,22 @@
 package fr.plil.sio.web.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    @Resource
+    @Autowired
     private UserRepository userRepository;
 
-    @Resource
+    @Autowired
     private RoleRepository roleRepository;
 
-    @Resource
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
+        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         return user;
     }
 

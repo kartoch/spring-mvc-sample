@@ -25,7 +25,7 @@ public class User implements UserDetails {
     @Column(name = "PASSWORD_F")
     private String password;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Role> roles = new TreeSet<>();
 

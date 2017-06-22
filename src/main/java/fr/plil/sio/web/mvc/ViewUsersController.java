@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
@@ -15,7 +14,7 @@ public class ViewUsersController {
     @Autowired
     private SecurityService securityService;
 
-    @Resource
+    @Autowired
     private UserRepository userRepository;
 
     @ModelAttribute("users")

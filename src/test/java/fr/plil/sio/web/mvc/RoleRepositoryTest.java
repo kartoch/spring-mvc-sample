@@ -8,24 +8,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @Transactional
-public class UserServiceTest {
+public class RoleRepositoryTest {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     @Test
-    public void testCreateUser() {
-        userService.createUser("blabla", "polo");
-        User u = userRepository.findByUsername("blabla");
-        assertEquals("blabla", u.getUsername());
-        assertEquals(1, u.getRoles().size());
-        assertEquals("ROLE_USER", u.getRoles().iterator().next().getName());
+    public void testDefaultRolesPresent() {
+        assertEquals(2, roleRepository.findAll().size());
+        assertNotNull(roleRepository.findByName("ROLE_ADMIN"));
+        assertNotNull(roleRepository.findByName("ROLE_USER"));
     }
 }

@@ -12,14 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.annotation.Resource;
-
 @SpringBootConfiguration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Resource
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
